@@ -9,10 +9,12 @@ export default class ChatBar extends Component {
           className="chatbar-username"
           placeholder="Your Name (Optional)"
           defaultValue={userName}
+          onChange={this.props.setCurrentUser}
         />
         <input
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"
+          onKeyPress={this.props.handleKeyPress}
         />
       </footer>
     );

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
+
 function NavBar() {
   return (
     <div className="navbar">
@@ -10,6 +11,7 @@ function NavBar() {
     </div>
   );
 }
+
 class App extends Component {
   constructor(props) {
     super();
@@ -55,13 +57,56 @@ class App extends Component {
         }
       ]
     };
+    this._handleKeyPress = this._handleKeyPress.bind(this);
   }
+
+  componentDidMount() {
+    console.log("componentDidMount <App />");
+    setTimeout(() => {
+      console.log("Simulating incoming message");
+      // Add a new message to the list of messages in the data store
+      const newMessage = {
+        id: 19,
+        username: "Michelle",
+        content: "Hello there!",
+        type: "incomingMessage"
+      };
+      const messages = this.state.messages.concat(newMessage);
+      // Update the state of the app component.
+      // Calling setState will trigger a call to render() in App and all child components.
+      this.setState({ messages: messages });
+    }, 3000);
+  }
+
+  _handleKeyPress = e => {
+    if (e.key === "Enter") {
+      console.log(e.target.value);
+      let newMessage = {
+        username: this.state.currentUser,
+        content: e.target.value,
+        type: "incomingMessage"
+      };
+      let messages = this.state.messages.concat(newMessage);
+
+      this.setState({ messages });
+      e.target.value = "";
+    }
+  };
+  _setCurrentUser = e => {
+    console.log(e.target.value);
+    this.setState({ currentUser: e.target.value });
+  };
+
   render() {
     return (
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser} />
+        <ChatBar
+          currentUser={this.state.currentUser}
+          handleKeyPress={this._handleKeyPress}
+          setCurrentUser={this._setCurrentUser}
+        />
       </div>
     );
   }

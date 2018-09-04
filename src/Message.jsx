@@ -3,12 +3,8 @@ import React, { Component } from "react";
 export default class Message extends Component {
   render() {
     const message = this.props.message;
-    if (message.type !== "incomingMessage") {
-      return (
-        <div className="message system">
-          {message.username} changed their name to nomnom.
-        </div>
-      );
+    if (message.type === "incomingNotification") {
+      return <div className="message system">{message.content}</div>;
     } else {
       return (
         <div className="message">
