@@ -15,6 +15,7 @@ class App extends Component {
     super();
     this.state = {
       loading: true,
+      currentUser: "Anonymous",
       messages: [
         {
           type: "incomingMessage",
@@ -60,7 +61,7 @@ class App extends Component {
       <div>
         <NavBar />
         <MessageList messages={this.state.messages} />
-        <ChatBar />
+        <ChatBar currentUser={this.state.currentUser} />
       </div>
     );
   }
