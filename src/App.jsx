@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import MessageList from "./MessageList.jsx";
 import ChatBar from "./ChatBar.jsx";
+const util = require("util");
+const uuidv1 = require("uuid/v1");
 
 function NavBar() {
   return (
@@ -17,84 +19,82 @@ class App extends Component {
     super();
     this.state = {
       loading: true,
-      currentUser: "Anonymous",
-      messages: [
-        {
-          type: "incomingMessage",
-          content:
-            "I won't be impressed with technology until I can download food.",
-          username: "Anonymous1"
-        },
-        {
-          type: "incomingNotification",
-          content: "Anonymous1 changed their name to nomnom"
-        },
-        {
-          type: "incomingMessage",
-          content:
-            "I wouldn't want to download Kraft Dinner. I'd be scared of cheese packet loss.",
-          username: "Anonymous2"
-        },
-        {
-          type: "incomingMessage",
-          content: "...",
-          username: "nomnom"
-        },
-        {
-          type: "incomingMessage",
-          content:
-            "I'd love to download a fried egg, but I'm afraid encryption would scramble it",
-          username: "Anonymous2"
-        },
-        {
-          type: "incomingMessage",
-          content: "This isn't funny. You're not funny",
-          username: "nomnom"
-        },
-        {
-          type: "incomingNotification",
-          content: "Anonymous2 changed their name to NotFunny"
-        }
-      ]
+      currentUser: { name: "Anonymous" },
+      messages: []
     };
     this._handleKeyPress = this._handleKeyPress.bind(this);
   }
 
   componentDidMount() {
     console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      // Add a new message to the list of messages in the data store
-      const newMessage = {
-        id: 19,
-        username: "Michelle",
-        content: "Hello there!",
-        type: "incomingMessage"
+
+    this.socket = new WebSocket("ws://localhost:3001");
+    this.socket.onmessage = event => {
+      console.log("incoming message");
+      console.log(event);
+      console.log(typeof event);
+
+      let receivedData = JSON.parse(event.data);
+
+      let newMessage = {
+        username: receivedData.username,
+        content: receivedData.content,
+        type: receivedData.type,
+        id: receivedData.id
       };
-      const messages = this.state.messages.concat(newMessage);
-      // Update the state of the app component.
-      // Calling setState will trigger a call to render() in App and all child components.
-      this.setState({ messages: messages });
-    }, 3000);
+
+      let messages = this.state.messages.concat(newMessage);
+      this.setState({ messages });
+      // code to handle incoming message
+    };
   }
 
   _handleKeyPress = e => {
-    if (e.key === "Enter") {
-      console.log(e.target.value);
+    console.log(e.target.className);
+    if (e.key === "Enter" && e.target.className === "chatbar-message") {
+      // console.log(e.target.value);
       let newMessage = {
-        username: this.state.currentUser,
+        username: this.state.currentUser.name,
         content: e.target.value,
         type: "incomingMessage"
       };
       let messages = this.state.messages.concat(newMessage);
 
+      //Websocket message
+      let message = {
+        type: "incomingMessage",
+        id: uuidv1(),
+        username: this.state.currentUser.name,
+        content: e.target.value
+      };
+
+      this.socket.send(JSON.stringify(message));
+
       this.setState({ messages });
       e.target.value = "";
+    } else if (e.key === "Enter" && e.target.className === "chatbar-username") {
+      let newMessage = {
+        username: e.target.value,
+        type: "incomingNotification",
+        content: `${this.state.currentUser.name} changed their name to ${
+          e.target.value
+        }`
+      };
+      let messages = this.state.messages.concat(newMessage);
+      //Websocket message
+      let message = {
+        id: uuidv1(),
+        username: e.target.value,
+        type: "incomingNotification",
+        content: `${this.state.currentUser.name} changed their name to ${
+          e.target.value
+        }`
+      };
+
+      this.socket.send(JSON.stringify(message));
+
+      this.setState({ currentUser: { name: e.target.value }, messages });
     }
-  };
-  _setCurrentUser = e => {
-    console.log(e.target.value);
-    this.setState({ currentUser: e.target.value });
   };
 
   render() {
@@ -103,9 +103,8 @@ class App extends Component {
         <NavBar />
         <MessageList messages={this.state.messages} />
         <ChatBar
-          currentUser={this.state.currentUser}
+          currentUser={this.state.currentUser.name}
           handleKeyPress={this._handleKeyPress}
-          setCurrentUser={this._setCurrentUser}
         />
       </div>
     );
