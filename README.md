@@ -1,45 +1,52 @@
-React Boilerplate
-=====================
+# Chatty App Project
 
-A minimal and light dev environment for ReactJS.
+## Dependencies
 
-### Usage
+- Express
+- Node 5.10.x or above
 
-Clone the boilerplate and create your own git repo.
+Chatty will allow users to communicate with each other without having to register accounts.
 
-```
-git clone git@github.com:lighthouse-labs/react-simple-boilerplate.git
-cd react-simple-boilerplate
-git remote rm origin
-git remote add origin [YOUR NEW REPOSITORY]
-# Manually update your package.json file
-```
+## Final Product
 
-Install the dependencies and start the server.
+### 1. Main Page
 
-```
-npm install
-npm start
-open http://localhost:3000
-```
+<img src="/images/chatty_1.JPG" width="500">
 
-### Static Files
+### 2. When any connected user sends a chat message, all connected users receive and display the message
 
-You can store static files like images, fonts, etc in the `build` folder.
+<img src="/images/chatty_2.gif" width="500">
 
-For example, if you copy a file called my_image.png into the build folder you can access it using `http://localhost:3000/build/my_image.png`.
+### 3. When any connected user changes their name, all connected users are notified of the name change
 
-### Linting
+<img src="/images/chatty_3.gif" width="500">
 
-This boilerplate project includes React ESLint configuration.
+### 4. When the number of connected users changes, this count will be updated for all connected users
 
-```
-npm run lint
-```
+<img src="/images/chatty_4.gif" width="500">
 
-### Dependencies
+## Dependencies
 
-* React
-* Webpack
-* [babel-loader](https://github.com/babel/babel-loader)
-* [webpack-dev-server](https://github.com/webpack/webpack-dev-server)
+- babel-core
+- babel-loader
+- babel-preset-es2015
+- babel-preset-react
+- css-loader
+- node-sass
+- sass-loader
+- sockjs-client
+- style-loader
+- webpack
+- webpack-dev-server
+- react
+- react-dom
+- express
+- ws
+- uuid
+
+## Getting Started
+
+1. Fork this repository, then clone your fork of this repository.
+2. Install dependencies using the `npm install` command.
+3. Start chatty-server by 'cd' into the 'chatty_server' folder, and then using the 'npm start', the server will be on <http://localhost:3001/>.
+4. Start the web server using the `npm start` command. The app will be served at <http://localhost:3000/>.

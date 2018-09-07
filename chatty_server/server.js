@@ -26,13 +26,13 @@ const wss = new SocketServer({
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
   console.log('Client connected');
-  ws.on('open', function open() {
-    ws.send('something');
-  });
+
 
   ws.on('message', function incoming(data) {
+    console.log(`data is, ${data}`);
     let dataReceived = JSON.parse(data);
     console.log(dataReceived);
+
 
     // Broadcast to everyone else.
     wss.clients.forEach(function each(client) {
@@ -40,11 +40,20 @@ wss.on('connection', (ws) => {
         client.send(JSON.stringify(dataReceived));
       }
     });
-
-
   });
 
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    console.log('Client disconnected');
+    wss.clients.forEach(function each(client) {
+      if (client !== ws && client.readyState === WebSocket.OPEN) {
+        let dataReceived = {
+          type: "close"
+        }
+        client.send(JSON.stringify(dataReceived));
+      }
+    });
+
+  });
 });
