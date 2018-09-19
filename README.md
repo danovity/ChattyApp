@@ -1,10 +1,5 @@
 # Chatty App Project
 
-## Dependencies
-
-- Express
-- Node 5.10.x or above
-
 Chatty will allow users to communicate with each other without having to register accounts.
 
 ## Final Product
