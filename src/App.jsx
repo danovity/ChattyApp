@@ -42,10 +42,6 @@ class App extends Component {
     };
 
     this.socket.onmessage = event => {
-      console.log("incoming message");
-      console.log(event);
-      console.log(typeof event);
-
       let receivedData = JSON.parse(event.data);
       if (receivedData.type === "open") {
         //Initial, userCount loaded
