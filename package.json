@@ -1,14 +1,14 @@
 {
-  "name": "Chatty App",
+  "name": "react-simple-boilerplate",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple and lightweight Boilerplate for ReactJS projects",
   "scripts": {
     "lint": "eslint --ext .jsx,.js src",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/danovity/ChattyApp"
   },
   "keywords": [
     "react",
@@ -22,7 +22,7 @@
   "author": "Sean Ye",
   "license": "MIT",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/danovity/ChattyApp/issues"
   },
   "homepage": "",
   "engines": {
