@@ -6,19 +6,19 @@ Chatty will allow users to communicate with each other without having to registe
 
 ### 1. Main Page
 
-<img src="/images/chatty_1.JPG" width="500">
+<img src="/images/chatty_1.JPG" width="800">
 
 ### 2. When any connected user sends a chat message, all connected users receive and display the message
 
-<img src="/images/chatty_2.gif" width="500">
+<img src="/images/chatty_2.gif" width="800">
 
 ### 3. When any connected user changes their name, all connected users are notified of the name change
 
-<img src="/images/chatty_3.gif" width="500">
+<img src="/images/chatty_3.gif" width="800">
 
 ### 4. When the number of connected users changes, this count will be updated for all connected users
 
-<img src="/images/chatty_4.gif" width="500">
+<img src="/images/chatty_4.gif" width="800">
 
 ## Dependencies
 
